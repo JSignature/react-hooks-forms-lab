@@ -9,7 +9,7 @@ function ShoppingList({ items }) {
   const [filterValue, setFilterValue] = useState('')
   const [itemName, setItemName] = useState('')
   const [itemCategory, setItemCategory] = useState('Produce')
-  const [newList, setNewList] = useState({ items })
+  const [newList, setNewList] = useState(items)
 
   function handleFilterValueChange(e) {
     setFilterValue(e.target.value)
@@ -26,32 +26,29 @@ function ShoppingList({ items }) {
   }
 
   function handleItemAdd(event) {
+    console.log(event)
     event.preventDefault()
     const newItem = {
       id: uuid(),
       name: itemName,
       category: itemCategory,
     }
-    console.log(newItem)
-    const updatedArray = [...items, newItem]
-    console.log(updatedArray)
-    setNewList(updatedArray)
+
+    setNewList([...newList, newItem])
   }
 
   function handleCategoryChange(event) {
     setSelectedCategory(event.target.value)
   }
 
-  const itemsToDisplay = items
+  const itemsToDisplay = newList
     .filter(item => {
-      // console.log(item.name)
-
       if (selectedCategory === 'All') return true
 
       return item.category === selectedCategory
     })
     .filter(item => item.name.includes(filterValue))
-  console.log(...items)
+
   return (
     <div className="ShoppingList">
       <ItemForm
